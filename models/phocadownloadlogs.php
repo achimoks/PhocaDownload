@@ -6,6 +6,9 @@
  * @copyright Copyright (C) Jan Pavelka www.phoca.cz
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
+
+### am - 2015.03.20 -> add SQL for show only user logs, add preset for default ordering
+
 defined('_JEXEC') or die();
 jimport('joomla.application.component.modellist');
 jimport( 'joomla.filesystem.folder' );
@@ -31,7 +34,6 @@ class PhocaDownloadCpModelPhocaDownloadLogs extends JModelList
 				'ip', 'a.ip',
 				'page', 'a.page',
 				'type', 'a.type'
-
 			);
 		}
 
@@ -43,9 +45,13 @@ class PhocaDownloadCpModelPhocaDownloadLogs extends JModelList
 		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
+### // get component parameters
+		$this->t['p']       = JComponentHelper::getParams('com_phocadownload');
+###
 		// Load the filter state.
 		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
+
 /*
 		$accessId = $app->getUserStateFromRequest($this->context.'.filter.access', 'filter_access', null, 'int');
 		$this->setState('filter.access', $accessId);
@@ -114,12 +120,15 @@ class PhocaDownloadCpModelPhocaDownloadLogs extends JModelList
 		
 		$query->select('ua.id AS userid, ua.username AS username, ua.name AS usernameno');
 		$query->join('LEFT', '#__users AS ua ON ua.id = a.userid');
-		
+
+###
+		if ($this->t['p']->get('show_only_user_logs', 0) == 1) {
+			$query->where(' ua.username <> ""');
+		}
+###
+
 		//$query->select('uc.name AS editor');
 		//$query->join('LEFT', '#__users AS uc ON uc.id=f.checked_out');
-		
-
-			
 
 
 /*		// Join over the asset groups.
@@ -180,9 +189,21 @@ class PhocaDownloadCpModelPhocaDownloadLogs extends JModelList
 		// Add the list ordering clause.
 		$orderCol	= $this->state->get('list.ordering');
 		$orderDirn	= $this->state->get('list.direction');
+
 		if ($orderCol == 'a.id' || $orderCol == 'username') {
 			$orderCol = 'username '.$orderDirn.', a.id';
 		}
+
+### set default ordering to an useful value
+		if ($orderCol == 'f.title') {
+			$orderCol = 'a.date';
+			$orderDirn = 'desc';
+
+			$this->state->set('list.ordering', 'a.date');
+			$this->state->set('list.direction', 'desc');
+		}
+###
+
 		$query->order($db->escape($orderCol.' '.$orderDirn));
 
 		//echo nl2br(str_replace('#__', 'jos_', $query->__toString()));

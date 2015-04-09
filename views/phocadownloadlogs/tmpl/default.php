@@ -7,6 +7,10 @@
  * @copyright Copyright (C) Jan Pavelka www.phoca.cz
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
+
+### am - 2015.02.08 -> add HUA column
+### am - 2015.03.20 -> fixed pagination and removed unused columns
+
 defined('_JEXEC') or die;
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
@@ -42,7 +46,7 @@ echo $r->endFilter();
 echo $r->startMainContainer();
 echo $r->startFilterBar();
 echo $r->inputFilterSearch($this->t['l'].'_FILTER_SEARCH_LABEL', $this->t['l'].'_FILTER_SEARCH_DESC',
-							$this->escape($this->state->get('filter.search')));
+$this->escape($this->state->get('filter.search')));
 echo $r->inputFilterSearchClear('JSEARCH_FILTER_SUBMIT', 'JSEARCH_FILTER_CLEAR');
 echo $r->inputFilterSearchLimit('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC', $this->pagination->getLimitBox());
 echo $r->selectFilterDirection('JFIELD_ORDERING_DESC', 'JGLOBAL_ORDER_ASCENDING', 'JGLOBAL_ORDER_DESCENDING', $listDirn);
@@ -53,8 +57,10 @@ echo $r->startTable('categoryList');
 
 echo $r->startTblHeader();
 
-echo '<th></th>';//$r->thOrdering('JGRID_HEADING_ORDERING', 0,0);
-echo $r->thCheck('JGLOBAL_CHECK_ALL');
+### unused
+###	echo '<th></th>';//$r->thOrdering('JGRID_HEADING_ORDERING', 0,0);
+###	echo $r->thCheck('JGLOBAL_CHECK_ALL');
+
 echo '<th class="ph-date">'.JHTML::_('grid.sort', $this->t['l'].'_DATE', 'a.date', $listDirn, $listOrder ).'</th>'."\n";
 echo '<th class="ph-uploaduser">'.JHTML::_('grid.sort', $this->t['l'].'_USER', 'username', $listDirn, $listOrder ).'</th>'."\n";
 echo '<th class="ph-ip">'.JHTML::_('grid.sort', $this->t['l'].'_IP', 'a.ip', $listDirn, $listOrder ).'</th>'."\n";
@@ -63,71 +69,73 @@ echo '<th class="ph-catid">'.JHTML::_('grid.sort',  	$this->t['l'].'_CATEGORY', 
 echo '<th class="ph-page">'.JHTML::_('grid.sort', $this->t['l'].'_PAGE', 'a.page', $listDirn, $listOrder ).'</th>'."\n";
 echo '<th class="ph-type">'.JHTML::_('grid.sort', $this->t['l'].'_TYPE', 'a.type', $listDirn, $listOrder ).'</th>'."\n";
 echo '<th class="ph-id">'.JHTML::_('grid.sort', $this->t['l'].'_ID', 'a.id', $listDirn, $listOrder ).'</th>'."\n";
-
+### am - 8.2.2015
+echo '<th class="ph-hua">'.JHTML::_('grid.sort', $this->t['l'].'_HUA', 'a.hua', $listDirn, $listOrder ).'</th>'."\n";
+### am - 8.2.2015
 echo $r->endTblHeader();
 			
 echo '<tbody>'. "\n";
 
 $originalOrders = array();	
 $parentsStr 	= "";		
-$j 				= 0;
 
 if (is_array($this->items)) {
 	foreach ($this->items as $i => $item) {
-		if ($i >= (int)$this->pagination->limitstart && $j < (int)$this->pagination->limit) {
-			$j++;
-/*
-$urlEdit		= 'index.php?option='.$this->t['o'].'&task='.$this->t['task'].'.edit&id=';
-$urlTask		= 'index.php?option='.$this->t['o'].'&task='.$this->t['task'];
-$orderkey   	= array_search($item->id, $this->ordering[$item->catid]);		
-$ordering		= ($listOrder == 'a.ordering');			
-$canCreate		= $user->authorise('core.create', $this->t['o']);
-$canEdit		= $user->authorise('core.edit', $this->t['o']);
-$canCheckin		= $user->authorise('core.manage', 'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
-$canChange		= $user->authorise('core.edit.state', $this->t['o']) && $canCheckin;
-$linkEdit 		= JRoute::_( $urlEdit. $item->id );
 
-$linkCat	= JRoute::_( 'index.php?option='.$this->t['o'].'&task='.$this->t['c'].'cat.edit&id='.(int) $item->category_id );
-$canEditCat	= $user->authorise('core.edit', $this->t['o']);*/
+			/*
+			$urlEdit		= 'index.php?option='.$this->t['o'].'&task='.$this->t['task'].'.edit&id=';
+			$urlTask		= 'index.php?option='.$this->t['o'].'&task='.$this->t['task'];
+			$orderkey   	= array_search($item->id, $this->ordering[$item->catid]);
+			$ordering		= ($listOrder == 'a.ordering');
+			$canCreate		= $user->authorise('core.create', $this->t['o']);
+			$canEdit		= $user->authorise('core.edit', $this->t['o']);
+			$canCheckin		= $user->authorise('core.manage', 'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
+			$canChange		= $user->authorise('core.edit.state', $this->t['o']) && $canCheckin;
+			$linkEdit 		= JRoute::_( $urlEdit. $item->id );
 
+			$linkCat	= JRoute::_( 'index.php?option='.$this->t['o'].'&task='.$this->t['c'].'cat.edit&id='.(int) $item->category_id );
+			$canEditCat	= $user->authorise('core.edit', $this->t['o']);
+			*/
 
-$iD = $i % 2;
-echo "\n\n";
-echo '<tr class="row'.$iD.'" sortable-group-id="0" item-id="0" parents="0" level="0">'. "\n";
+			$iD = $i % 2;
+			echo "\n\n";
+			echo '<tr class="row'.$iD.'" sortable-group-id="0" item-id="0" parents="0" level="0">'. "\n";
 
-echo $r->tdOrder(0,0,0);
-echo $r->td(JHtml::_('grid.id', $i, $item->id), "small hidden-phone");
+### unused
+###			echo $r->tdOrder(0,0,0);
+###			echo $r->td(JHtml::_('grid.id', $i, $item->id), "small hidden-phone");
 
+			echo $r->td($this->escape($item->date));
 
-echo $r->td($this->escape($item->date));
+			$usrO = $item->usernameno;
+			if ($item->username) {$usrO = $usrO . ' ('.$item->username.')';}
+			if (!$usrO) {
+				$usrO = JText::_('COM_PHOCADOWNLOAD_GUEST');
+			}
 
-$usrO = $item->usernameno;
-if ($item->username) {$usrO = $usrO . ' ('.$item->username.')';}
-if (!$usrO) {
-	$usrO = JText::_('COM_PHOCADOWNLOAD_GUEST');
-}
-echo $r->td($usrO, "small hidden-phone");
+			echo $r->td($usrO, "small hidden-phone");
+
+			echo $r->td($this->escape($item->ip));
+
+			//echo $r->td($this->escape($item->filetitle));
+			echo $r->td($this->escape($item->file_title) . ' ('.$this->escape($item->filename) . ')');
+
+			echo $r->td($this->escape($item->category_id));
+			echo $r->td('<span class="editlinktip hasTip" title="'. JText::_( $this->t['l'].'_PAGE' ).'::'. $this->escape($item->page).'">'
+						.'<a href="javascript:void(0);" >'. JText::_( $this->t['l'].'_PAGE' ).'</a></span>');
+
+			if ($item->type == 2) {
+				echo $r->td('<span class="label label-warning">'.JText::_($this->t['l'].'_UPLOAD').'</span>', "small hidden-phone");
+			} else {
+				echo $r->td('<span class="label label-success">'.JText::_($this->t['l'].'_DOWNLOAD').'</span>', "small hidden-phone");
+			}
+
+			echo $r->td($item->id, "small hidden-phone");
+			###
+			echo $r->td($this->escape($item->hua));
+			###
+			echo '</tr>'. "\n";
 					
-echo $r->td($this->escape($item->ip));
-
-//echo $r->td($this->escape($item->filetitle));
-echo $r->td($this->escape($item->file_title) . ' ('.$this->escape($item->filename) . ')');
-
-echo $r->td($this->escape($item->category_id));
-echo $r->td('<span class="editlinktip hasTip" title="'. JText::_( $this->t['l'].'_PAGE' ).'::'. $this->escape($item->page).'">'
-			.'<a href="javascript:void(0);" >'. JText::_( $this->t['l'].'_PAGE' ).'</a></span>');
-
-if ($item->type == 2) {
-	echo $r->td('<span class="label label-warning">'.JText::_($this->t['l'].'_UPLOAD').'</span>', "small hidden-phone");
-} else {
-	echo $r->td('<span class="label label-success">'.JText::_($this->t['l'].'_DOWNLOAD').'</span>', "small hidden-phone");
-}
-
-echo $r->td($item->id, "small hidden-phone");
-
-echo '</tr>'. "\n";
-						
-		}
 	}
 }
 echo '</tbody>'. "\n";

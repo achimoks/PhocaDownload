@@ -8,6 +8,7 @@
 -- Run this SQL queries in your database tool, e.g. in phpMyAdmin       --
 -- If you have questions, just ask in Phoca Forum                       --
 -- http://www.phoca.cz/forum/                                           --
+-- ### am - 2015.02.08 add hua to #__phocadownload_logging								--
 -- -------------------------------------------------------------------- --
 
 CREATE TABLE IF NOT EXISTS `#__phocadownload_categories` (
@@ -269,6 +270,7 @@ CREATE TABLE IF NOT EXISTS `#__phocadownload_logging` (
   `catid` int(11) NOT NULL default '0',
   `userid` int(11) NOT NULL default '0',
   `ip` varchar(20) NOT NULL default '',
+  `hua` varchar(255) NOT NULL default '',
   `page` varchar(255) NOT NULL,
   `date` datetime NOT NULL default '0000-00-00 00:00:00',
   `type` tinyint(1) NOT NULL DEFAULT '0',

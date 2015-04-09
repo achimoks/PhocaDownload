@@ -6,6 +6,9 @@
  * @copyright Copyright (C) Jan Pavelka www.phoca.cz
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
+
+### am - 2015.02.08 -> add HUA column
+
 defined('_JEXEC') or die();
 jimport( 'joomla.application.component.view' );
  
@@ -24,7 +27,7 @@ class PhocaDownloadCpViewPhocaDownloadLogs extends JViewLegacy
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 		$this->t['p']       = JComponentHelper::getParams('com_phocadownload');
-		
+
 		JHTML::stylesheet( $this->t['s'] );
 		
 		// Check for errors.
@@ -73,9 +76,11 @@ class PhocaDownloadCpViewPhocaDownloadLogs extends JViewLegacy
 			'a.ip'	 		=> JText::_($this->t['l'] . '_IP'),
 			'a.page'	 	=> JText::_($this->t['l'] . '_PAGE'),
 			'a.type'	 	=> JText::_($this->t['l'] . '_TYPE'),
-			'a.id'	 		=> JText::_($this->t['l'] . '_ID')
-			
-		);
+			'a.id'	 		=> JText::_($this->t['l'] . '_ID'),
+### am - 8.2.2015
+ 			'a.hua'	 		=> JText::_($this->t['l'] . '_HUA')
+### am - 8.2.2015
+ 		);
 	}
 	
 }

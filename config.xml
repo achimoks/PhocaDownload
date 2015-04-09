@@ -5,14 +5,12 @@
 
 <field name="phocahead1" type="phocahead"  default="COM_PHOCADOWNLOAD_CONFIG_CATEGORY_CATEGORIES_VIEW_LABEL" label="" description=""/>
 	
-<field name="filename_or_name" type="list" default="filenametitle" label="COM_PHOCADOWNLOAD_FIELD_FILENAME_OR_NAME_LABEL" description="COM_PHOCADOWNLOAD_FIELD_FILENAME_OR_NAME_LABEL_DESC">
+<field name="filename_or_name" type="list" default="filename" label="COM_PHOCADOWNLOAD_FIELD_FILENAME_OR_NAME_LABEL" description="COM_PHOCADOWNLOAD_FIELD_FILENAME_OR_NAME_LABEL_DESC">
 	<option value="filename">COM_PHOCADOWNLOAD_FILENAME</option>
 	<option value="title">COM_PHOCADOWNLOAD_TITLE</option>
 	<option value="filenametitle">COM_PHOCADOWNLOAD_FILENAME_AND_TITLE</option>
 </field>
-		
 
-	
 <field name="display_downloads" type="list" default="0" label="COM_PHOCADOWNLOAD_FIELD_DISPLAY_DOWNLOADS_LABEL" description="COM_PHOCADOWNLOAD_FIELD_DISPLAY_DOWNLOADS_DESC">
 		<option value="1">COM_PHOCADOWNLOAD_YES</option>
 		<option value="0">COM_PHOCADOWNLOAD_NO</option>
@@ -95,8 +93,6 @@
 	<option value="6">COM_PHOCADOWNLOAD_DATE_DESC</option>
 	<option value="7">COM_PHOCADOWNLOAD_ID_ASC</option>
 	<option value="8">COM_PHOCADOWNLOAD_ID_DESC</option>
-	<option value="11">COM_PHOCADOWNLOAD_FILENAME_ASC</option>
-	<option value="12">COM_PHOCADOWNLOAD_FILENAME_DESC</option>
 </field>
 
 
@@ -171,7 +167,7 @@
 <option value="2">COM_PHOCADOWNLOAD_FACEBOOK</option>
 </field>
 
-<field name="fb_comment_app_id" default="" size="18" type="phocaselectfbuser" label="COM_PHOCADOWNLOAD_FIELD_FB_COMMENT_APP_ID_LABEL" description="COM_PHOCADOWNLOAD_FIELD_FB_COMMENT_APP_ID_DESC" />
+<field name="fb_comment_app_id" default="" size="18" type="phocaselectfbuser" label="COM_PHOCADOWNLOAD_FIELD_FB_COMMENT_APP_ID_LABEL" description="COM_PHOCADOWNLOAD_FIELD_FB_COMMENT_APP_ID_LABEL" />
 
 <field name="fb_comment_width" default="550" size="6" type="phocatext" label="COM_PHOCADOWNLOAD_FACEBOOK_COMMENTS_WIDTH_LABEL" description="COM_PHOCADOWNLOAD_FACEBOOK_COMMENTS_WIDTH_DESC" />
 <field name="fb_comment_lang" type="text" size="30" default="en_US" label="COM_PHOCADOWNLOAD_FACEBOOK_FIELD_COMMENT_LANG_LABEL" description="COM_PHOCADOWNLOAD_FACEBOOK_FIELD_COMMENT_LANG_DESC" />
@@ -422,6 +418,13 @@
 
 <field name="send_mail_download" type="user" section="com_phocadownload" default="0" label="COM_PHOCADOWNLOAD_FIELD_SEND_EMAIL_DOWNLOAD_LABEL" description="COM_PHOCADOWNLOAD_FIELD_SEND_EMAIL_DOWNLOAD_DESC" />
 
+
+<field name="send_mail_only_user_download" default="0" type="list" label="COM_PHOCADOWNLOAD_FIELD_SEND_EMAIL_ONLY_USER_DOWNLOAD_LABEL" description="COM_PHOCADOWNLOAD_FIELD_SEND_EMAIL_ONLY_USER_DOWNLOAD_DESC" >
+	<option value="1">COM_PHOCADOWNLOAD_YES</option>
+	<option value="0">COM_PHOCADOWNLOAD_NO</option>
+</field>
+
+
 <field name="user_files_max_count_download" type="phocatext" size="20" default="0" label="COM_PHOCADOWNLOAD_FIELD_MAX_COUNT_USER_DOWNLOADS_LABEL" description="COM_PHOCADOWNLOAD_FIELD_MAX_COUNT_USER_DOWNLOADS_DESC" />
 
 <field name="enable_token_download" type="list" default="0" label="COM_PHOCADOWNLOAD_FIELD_ENABLE_TOKEN_DOWNLOAD_LABEL" description="COM_PHOCADOWNLOAD_FIELD_ENABLE_TOKEN_DOWNLOAD_DESC">
@@ -479,8 +482,6 @@
 
 <fieldset name="general" label="COM_PHOCADOWNLOAD_CONFIG_HEAD_GENERAL_LABEL">
 
-
-
 <field name="enable_user_statistics" default="1" type="list" label="COM_PHOCADOWNLOAD_FIELD_ENABLE_USER_STAT_LABEL" description="COM_PHOCADOWNLOAD_FIELD_ENABLE_USER_STAT_DESC" >
 	<option value="1">COM_PHOCADOWNLOAD_YES</option>
 	<option value="0">COM_PHOCADOWNLOAD_NO</option>
@@ -491,6 +492,18 @@
 	<option value="2">COM_PHOCADOWNLOAD_YES_UPLOADS_ONLY</option>
 	<option value="1">COM_PHOCADOWNLOAD_YES_DOWNLOADS_ONLY</option>
 	<option value="3">COM_PHOCADOWNLOAD_YES_UPLOADS_DOWNLOADS</option>
+</field>
+
+<field name="disable_anonymous_logging" default="0" type="list" label="COM_PHOCADOWNLOAD_FIELD_DISABLE_ANONYMOUS_LOGGING_LABEL" description="COM_PHOCADOWNLOAD_FIELD_DISABLE_ANONYMOUS_LOGGING_DESC" >
+	<option value="1">COM_PHOCADOWNLOAD_YES</option>
+	<option value="0">COM_PHOCADOWNLOAD_NO</option>
+</field>
+
+
+
+<field name="show_only_user_logs" default="0" type="list" label="COM_PHOCADOWNLOAD_FIELD_SHOW_ONLY_USER_LOGS_LABEL" description="COM_PHOCADOWNLOAD_FIELD_SHOW_ONLY_USER_LOGS_DESC" >
+	<option value="1">COM_PHOCADOWNLOAD_YES</option>
+	<option value="0">COM_PHOCADOWNLOAD_NO</option>
 </field>
 
 
